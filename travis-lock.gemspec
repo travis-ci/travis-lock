@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors      = ["Travis CI"]
   s.email        = "contact@travis-ci.org"
   s.homepage     = "https://github.com/travis-ci/travis-lock"
-  s.summary      = "Travis CI config"
+  s.summary      = "Locks for use at Travis CI"
   s.description  = "#{s.summary}."
   s.license      = "MIT"
 
@@ -17,6 +17,4 @@ Gem::Specification.new do |s|
   s.platform     = Gem::Platform::RUBY
   s.require_path = 'lib'
   s.rubyforge_project = '[none]'
-
-  s.add_dependency 'activerecord' , '~> 4.0'
 end
