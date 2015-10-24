@@ -1,7 +1,10 @@
-require 'active_record'
+begin
+  require 'active_record'
 
-ActiveRecord::Base.establish_connection(
-  adapter:  'postgresql',
-  database: 'travis_test',
-  pool:     50
-)
+  ActiveRecord::Base.establish_connection(
+    adapter:  'postgresql',
+    database: 'travis_test',
+    pool:     50
+  )
+rescue LoadError
+end

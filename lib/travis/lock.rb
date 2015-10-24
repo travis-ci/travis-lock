@@ -6,7 +6,7 @@ module Travis
   module Lock
     class Timeout < StandardError
       def initialize(name, options)
-        super("Could not obtain lock for #{name}: #{options.map { |*pair| pair.join('=') }.join(' ')}")
+        super("Could not obtain lock for #{name}: #{options.map { |pair| pair.join('=') }.join(' ')}")
       end
     end
 

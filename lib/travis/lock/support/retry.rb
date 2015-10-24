@@ -26,7 +26,7 @@ module Travis
       end
 
       def timeout!
-        fail Timeout.new(name, options)
+        fail Timeout.new(name, options || {})
       end
     end
   end

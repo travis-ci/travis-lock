@@ -3,8 +3,12 @@
 # 13.3.4. Advisory Locks : http://www.postgresql.org/docs/9.3/static/explicit-locking.html
 # http://www.postgresql.org/docs/9.3/static/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS
 
+begin
+  require 'active_record'
+rescue LoadError
+end
+
 require 'zlib'
-require 'active_record'
 require 'travis/lock/support/retry'
 
 module Travis

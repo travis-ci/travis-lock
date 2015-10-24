@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'activerecord'
 gem 'redlock'
 
 platform :ruby do
