@@ -13,20 +13,24 @@ module Travis
         end
       end
 
-      extend MonitorMixin
+      def self.clients
+        @clients ||= {}
+      end
 
       DEFAULTS = {
         ttl:      5 * 60,
         retries:  5,
-        interval: 0.1
+        interval: 0.1,
+        timeout:  0.5
       }
 
-      attr_reader :name, :config, :retried
+      attr_reader :name, :config, :retried, :monitor
 
       def initialize(name, config)
         @name    = name
         @config  = DEFAULTS.merge(config)
         @retried = 0
+        @monitor = Monitor.new
       end
 
       def exclusive
@@ -40,7 +44,9 @@ module Travis
       private
 
         def client
-          Redlock::Client.new([url])
+          monitor.synchronize do
+            self.class.clients[url] ||= Redlock::Client.new([url], redis_timeout: config[:timeout])
+          end
         end
 
         def url

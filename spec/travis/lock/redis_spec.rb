@@ -4,6 +4,8 @@ describe Travis::Lock::Redis do
   let(:lock)   { described_class.new(name, config) }
   let(:name)   { 'name' }
 
+  after { Travis::Lock::Redis.instance_variable_set(:@clients, nil) }
+
   it 'yields' do
     lock.exclusive { @called = true }
     expect(@called).to eq(true)
