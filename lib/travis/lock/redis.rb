@@ -8,7 +8,10 @@ module Travis
   module Lock
     class Redis
       class LockError < StandardError
+        attr_reader :key
+
         def initialize(key)
+          @key = key
           super("Could not obtain lock for #{key.inspect} on Redis.")
         end
       end
@@ -36,7 +39,7 @@ module Travis
       def exclusive
         retrying do
           client.lock(name, config[:ttl]) do |lock|
-            lock ? yield : raise(LockError.new(name))
+            lock ? yield(lock) : raise(LockError.new(name))
           end
         end
       end

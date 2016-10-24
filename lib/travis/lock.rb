@@ -16,7 +16,7 @@ module Travis
 
     def exclusive(name, options = {}, &block)
       options[:strategy] ||= Lock.default_strategy || :none
-      const_get(camelize(options[:strategy])).new(name, options).exclusive(&block)
+      Lock.const_get(camelize(options[:strategy])).new(name, options).exclusive(&block)
     end
 
     private
