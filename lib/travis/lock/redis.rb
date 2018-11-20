@@ -21,7 +21,7 @@ module Travis
       end
 
       DEFAULTS = {
-        ttl:      5 * 60,
+        ttl:      5 * 60 * 1000,
         retries:  5,
         interval: 0.1,
         timeout:  0.5
