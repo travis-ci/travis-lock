@@ -13,7 +13,7 @@ describe Travis::Lock::Redis do
 
   it 'delegates to a Redlock instance' do
     Redlock::Client.stubs(:new).returns(client)
-    client.expects(:lock).with(name, 300)
+    client.expects(:lock).with(name, 300000)
     lock.exclusive {}
   end
 end

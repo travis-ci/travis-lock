@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    travis-lock (0.1.0)
+    travis-lock (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -23,7 +23,7 @@ GEM
     builder (3.2.2)
     diff-lcs (1.2.5)
     i18n (0.7.0)
-    json (1.8.3)
+    json (1.8.6)
     metaclass (0.0.4)
     minitest (5.8.1)
     mocha (1.1.0)
@@ -59,3 +59,6 @@ DEPENDENCIES
   redlock
   rspec (~> 3.0)
   travis-lock!
+
+BUNDLED WITH
+   1.16.1
