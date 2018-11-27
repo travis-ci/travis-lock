@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'activerecord'
+gem "activerecord", "~> 4.2"
 gem 'redlock'
 
 platform :ruby do
