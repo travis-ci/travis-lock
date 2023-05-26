@@ -24,7 +24,8 @@ module Travis
         ttl:      5 * 60 * 1000,
         retries:  5,
         interval: 0.1,
-        timeout:  0.5
+        timeout:  0.5,
+        threads:  5
       }
 
       attr_reader :name, :config, :retried, :monitor
@@ -48,7 +49,12 @@ module Travis
 
         def client
           monitor.synchronize do
-            self.class.clients[url] ||= Redlock::Client.new([url], redis_timeout: config[:timeout])
+            self.class.clients[url] ||= begin
+              redis_config = RedisClient.config(url: url)
+              pool = redis_config.new_pool(size: config[:threads])
+
+              Redlock::Client.new([pool], redis_timeout: config[:timeout])
+            end
           end
         end
 
