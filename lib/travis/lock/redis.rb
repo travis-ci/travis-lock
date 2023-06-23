@@ -1,6 +1,7 @@
 require 'monitor'
 begin
   require 'redlock'
+  require 'redis-client'
 rescue LoadError
 end
 

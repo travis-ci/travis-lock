@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem "activerecord", "~> 4.2"
+gem "activerecord", "~> 7"
 gem 'redlock'
 
 platform :ruby do
@@ -10,6 +10,6 @@ platform :ruby do
 end
 
 group :test do
-  gem 'rspec', '~> 3.0'
-  gem 'mocha', '~> 1.1'
+  gem 'rspec', '~> 3.12'
+  gem 'mocha', '~> 2.0'
 end
