@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'travis/lock/none'
 require 'travis/lock/postgresql'
 require 'travis/lock/redis'
@@ -21,8 +23,8 @@ module Travis
 
     private
 
-      def camelize(object)
-        object.to_s.split('_').collect(&:capitalize).join
-      end
+    def camelize(object)
+      object.to_s.split('_').collect(&:capitalize).join
+    end
   end
 end

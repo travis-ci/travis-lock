@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Travis
   module Lock
     class Retry < Struct.new(:name, :options)
@@ -26,7 +28,7 @@ module Travis
       end
 
       def timeout!
-        fail Timeout.new(name, options || {})
+        raise Timeout.new(name, options || {})
       end
     end
   end

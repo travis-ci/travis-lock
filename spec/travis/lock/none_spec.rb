@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Travis::Lock::None do
   let(:lock) { described_class.new }
 

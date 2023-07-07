@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 describe Travis::Lock::Postgresql do
   let(:lock) { described_class.new(name, config) }
   let(:name) { 'name' }
-  let(:key)  { 1579384326 }
+  let(:key)  { 1_579_384_326 }
 
   def rescueing
     yield
@@ -15,36 +17,39 @@ describe Travis::Lock::Postgresql do
     end
   end
 
-  context do
+  context 'lock' do
     let(:conn) { stub('connection', select_value: 't', execute: nil) }
-    before     { def conn.transaction; yield end }
-    before     { ActiveRecord::Base.stubs(:connection).returns(conn) }
+
+    before     do
+      def conn.transaction = yield
+      ActiveRecord::Base.stubs(:connection).returns(conn)
+    end
 
     shared_examples_for 'locks_with' do |method|
       it "locks_with #{method}" do
         conn.expects(:select_value).with("select #{method}(#{key});").returns('t')
-        lock.exclusive { }
+        lock.exclusive {}
       end
     end
 
     shared_examples_for 'retries until timeout' do
       it 'retries until timeout' do
         conn.expects(:select_value).returns('f').at_least(50)
-        rescueing { lock.exclusive { } }
+        rescueing { lock.exclusive {} }
       end
     end
 
     shared_examples_for 'sets a statement level timeout' do
       it 'sets a statement level timeout' do
         conn.expects(:execute).with('set statement_timeout to 100;')
-        lock.exclusive { }
+        lock.exclusive {}
       end
     end
 
     shared_examples_for 'raises Travis::Lock::Timeout when timed out' do
       it 'raises Travis::Lock::Timeout when timed out' do
         conn.stubs(:select_value).returns('f')
-        expect { lock.exclusive { } }.to raise_error(Travis::Lock::Timeout)
+        expect { lock.exclusive {} }.to raise_error(Travis::Lock::Timeout)
       end
     end
 

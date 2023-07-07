@@ -16,19 +16,32 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    ansi (1.5.0)
+    ast (2.4.2)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    json (2.6.3)
+    language_server-protocol (3.17.0.3)
     minitest (5.18.1)
     mocha (2.0.4)
       ruby2_keywords (>= 0.0.5)
+    parallel (1.23.0)
+    parser (3.2.2.3)
+      ast (~> 2.4.1)
+      racc
     pg (1.5.3)
+    racc (1.7.1)
+    rainbow (3.1.1)
     redis-client (0.14.1)
       connection_pool
     redlock (2.0.2)
       redis-client (~> 0.14.1)
+    regexp_parser (2.8.1)
+    rexml (3.2.5)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -42,9 +55,47 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.0)
+    rubocop (1.54.1)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.2.2.3)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.28.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.29.0)
+      parser (>= 3.2.1.0)
+    rubocop-capybara (2.18.0)
+      rubocop (~> 1.41)
+    rubocop-factory_bot (2.23.1)
+      rubocop (~> 1.33)
+    rubocop-performance (1.18.0)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    rubocop-rspec (2.22.0)
+      rubocop (~> 1.33)
+      rubocop-capybara (~> 2.17)
+      rubocop-factory_bot (~> 2.22)
+    ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-console (0.9.1)
+      ansi
+      simplecov
+      terminal-table
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
+    terminal-table (3.0.2)
+      unicode-display_width (>= 1.1.1, < 3)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unicode-display_width (2.4.2)
 
 PLATFORMS
   ruby
@@ -55,6 +106,11 @@ DEPENDENCIES
   pg
   redlock
   rspec (~> 3.12)
+  rubocop
+  rubocop-performance
+  rubocop-rspec
+  simplecov
+  simplecov-console
   travis-lock!
 
 BUNDLED WITH
