@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'monitor'
 begin
   require 'redlock'
+  require 'redis-client'
 rescue LoadError
 end
 
@@ -21,12 +24,12 @@ module Travis
       end
 
       DEFAULTS = {
-        ttl:      5 * 60 * 1000,
-        retries:  5,
+        ttl: 5 * 60 * 1000,
+        retries: 5,
         interval: 0.1,
-        timeout:  0.5,
-        threads:  5
-      }
+        timeout: 0.5,
+        threads: 5
+      }.freeze
 
       attr_reader :name, :config, :retried, :monitor
 
@@ -40,36 +43,37 @@ module Travis
       def exclusive
         retrying do
           client.lock(name, config[:ttl]) do |lock|
-            lock ? yield(lock) : raise(LockError.new(name))
+            lock ? yield(lock) : raise(LockError, name)
           end
         end
       end
 
       private
 
-        def client
-          monitor.synchronize do
-            self.class.clients[url] ||= begin
-              redis_config = RedisClient.config(url: url)
-              pool = redis_config.new_pool(size: config[:threads])
+      def client
+        monitor.synchronize do
+          self.class.clients[url] ||= begin
+            redis_config = RedisClient.config(url:)
+            pool = redis_config.new_pool(size: config[:threads])
 
-              Redlock::Client.new([pool], redis_timeout: config[:timeout])
-            end
+            Redlock::Client.new([pool], redis_timeout: config[:timeout])
           end
         end
+      end
 
-        def url
-          config[:url] || fail("No Redis URL specified")
-        end
+      def url
+        config[:url] || raise('No Redis URL specified')
+      end
 
-        def retrying
-          yield
-        rescue LockError
-          raise if retried.to_i >= config[:retries]
-          sleep config[:interval]
-          @retries = retried + 1
-          retry
-        end
+      def retrying
+        yield
+      rescue LockError
+        raise if retried.to_i >= config[:retries]
+
+        sleep config[:interval]
+        @retries = retried + 1
+        retry
+      end
     end
   end
 end

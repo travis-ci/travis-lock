@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 describe Travis::Lock::Redis do
   let(:config) { { url: 'redis://localhost' } }
-  let(:client) { stub('redlock', lock: nil)  }
+  let(:client) { stub('redlock', lock: nil) }
   let(:lock)   { described_class.new(name, config) }
   let(:name)   { 'name' }
 
-  after { Travis::Lock::Redis.instance_variable_set(:@clients, nil) }
+  after { described_class.instance_variable_set(:@clients, nil) }
 
   it 'yields' do
     lock.exclusive { @called = true }
@@ -13,7 +15,7 @@ describe Travis::Lock::Redis do
 
   it 'delegates to a Redlock instance' do
     Redlock::Client.stubs(:new).returns(client)
-    client.expects(:lock).with(name, 300000)
+    client.expects(:lock).with(name, 300_000)
     lock.exclusive {}
   end
 end

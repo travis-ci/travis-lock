@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_record'
 require 'travis/lock'
 
@@ -50,6 +52,6 @@ lock_types     = ARGV[2] ? [ARGV[2].to_sym] : Lock.constants
     end
     threads.map(&:join)
 
-    puts "  #{count == concurrency ? "\033[32;1m" : "\033[31;1m" }Expected count to be #{concurrency}. Actually is #{count}.\033[0m\n\n"
+    puts "  #{count == concurrency ? "\033[32;1m" : "\033[31;1m"}Expected count to be #{concurrency}. Actually is #{count}.\033[0m\n\n"
   end
 end
