@@ -53,7 +53,7 @@ module Travis
       def client
         monitor.synchronize do
           self.class.clients[url] ||= begin
-            redis_config = RedisClient.config(url:)
+            redis_config = RedisClient.config(url:, ssl:, ssl_params:)
             pool = redis_config.new_pool(size: config[:threads])
 
             Redlock::Client.new([pool], redis_timeout: config[:timeout])
@@ -64,6 +64,24 @@ module Travis
       def url
         config[:url] || raise('No Redis URL specified')
       end
+
+      def ssl
+        config[:ssl] || false
+      end
+
+      def ssl_params
+        @ssl_params ||=begin
+          return nil unless ssl
+
+          value = {}
+          value[:ca_path] = config[:ca_path] if config[:ca_path]
+          value[:cert] = config[:cert] if config[:cert]
+          value[:key] = config[:key] if config[:key]
+          value[:verify_mode] =  config[:verify_mode] if config[:verify_mode]
+          value
+        end
+      end
+
 
       def retrying
         yield
